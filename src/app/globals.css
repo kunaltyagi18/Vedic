@@ -692,4 +692,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .update-card h3, .impact-story-content h3 { font-weight: 500; }
 .about-copy h3, .footer-heading, .form-section-heading h2 { font-weight: 500; }
 .action-heading h1, .donate-copy h1 { letter-spacing: -.018em; }
+.work-card { min-height: 248px; border-radius: 14px; }
+.work-card-photo { transform: scale(1.04); filter: saturate(.92) brightness(.74); }
+.work-card::before { background: linear-gradient(180deg, rgb(10 15 19 / 8%) 0%, rgb(10 15 19 / 22%) 44%, rgb(7 11 15 / 88%) 100%); }
+.work-card-index { color: rgb(255 255 255 / 72%); }
+.work-card-body { padding: 18px; }
+.work-card-title { color: #fff; font-size: 16px; font-weight: 500; text-shadow: 0 2px 16px rgb(0 0 0 / 55%); }
+@media(max-width:600px) { .work-card { min-height: 218px; } .work-card-body { padding: 16px; } .work-card-title { font-size: 15px; } }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none !important; transition:none !important; } }
