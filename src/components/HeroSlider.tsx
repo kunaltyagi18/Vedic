@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Heart, Sprout, ShieldCheck, BookOpen } from 'lucide-react';
+import { ArrowRight, Heart, Sprout, ShieldCheck, BookOpen, LockKeyhole } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { photos, pages, vedicWisdomImage } from '@/lib/vgfc-content';
 
@@ -43,6 +43,50 @@ const slides = [
     image: photos.nutrition,
   },
 ];
+
+const communityAvatars = [
+  photos.education,
+  photos.healthcare,
+  photos.nutrition,
+  photos.environment,
+];
+
+const donationAmounts = [500, 1000, 2500, 5000];
+
+function HeroDonationCard() {
+  const [amount, setAmount] = useState(1000);
+
+  return (
+    <aside className="hero-donation-card" aria-label="Quick donation">
+      <div className="hero-donation-heading">
+        <span className="hero-donation-icon"><Heart size={19} fill="currentColor" /></span>
+        <div>
+          <h2>Every Donation Makes a Difference</h2>
+          <p>Fund education, healthcare &amp; nutrition</p>
+        </div>
+      </div>
+      <p className="hero-donation-prompt">Choose an amount and help us transform lives across Bharat.</p>
+      <div className="hero-donation-amounts" role="group" aria-label="Choose donation amount">
+        {donationAmounts.map((value) => (
+          <button
+            key={value}
+            type="button"
+            className={amount === value ? 'is-selected' : ''}
+            aria-pressed={amount === value}
+            onClick={() => setAmount(value)}
+          >
+            ₹{value.toLocaleString('en-IN')}
+          </button>
+        ))}
+      </div>
+      <Link className="hero-donation-submit" href={`/donate?amount=${amount}`}>
+        Donate ₹{amount.toLocaleString('en-IN')} Now
+        <Heart size={17} fill="currentColor" />
+      </Link>
+      <p className="hero-donation-note"><LockKeyhole size={15} />100% Secure · Tax-Deductible</p>
+    </aside>
+  );
+}
 
 export function HeroSlider() {
   const [index, setIndex] = useState(0);
@@ -138,13 +182,22 @@ export function HeroSlider() {
           </div>
           <div className="hero-actions">
             <Button variant="gold" size="lg" className="hero-primary-action" asChild>
-              <Link href={`/${slide.page}`}>Explore our journey<ArrowUpRight/></Link>
+              <Link href="/our-work">Discover Our Work<ArrowRight/></Link>
             </Button>
             <Button variant="glass" size="lg" className="hero-secondary-action" asChild>
-              <Link href="/donate"><Heart/>Make a difference</Link>
+              <Link href="/donate">Support Us<Heart/></Link>
             </Button>
           </div>
+          <div className="hero-support" aria-label="Join our community of supporters">
+            <div className="hero-support-avatars" aria-hidden="true">
+              {communityAvatars.map((avatar) => (
+                <img key={avatar} className="hero-support-avatar" src={avatar} alt="" width={42} height={42} />
+              ))}
+            </div>
+            <p><strong>Join our growing community</strong><br />making a real difference.</p>
+          </div>
         </div>
+        <HeroDonationCard />
       </div>
       <div className="site-container hero-bottom">
         <div className="slide-tabs">

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Coins, FileCheck2, HandCoins, Map, MapPinned, type LucideIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Medal, ShieldCheck, Target, UsersRound, type LucideIcon } from 'lucide-react';
 
 export type FootprintStat = {
   id: string;
@@ -14,47 +14,39 @@ export type FootprintStat = {
 };
 
 const defaultStats: FootprintStat[] = [
-  { id: 'states-uts', value: 36, icon: MapPinned, label: 'States & UTs' },
-  { id: 'districts', value: 338, icon: Map, label: 'Districts' },
-  { id: 'grantees', value: 300, icon: HandCoins, label: 'Grantees' },
-  { id: 'active-grants', value: 413, icon: FileCheck2, label: 'Active Grants' },
-  { id: 'disbursed', value: 1556, prefix: '₹', suffix: 'Cr', icon: Coins, label: 'Disbursed' },
+  { id: 'areas-of-work', value: 15, suffix: '+', icon: Target, label: 'Areas of Work' },
+  { id: 'lives-touched', value: 25, suffix: 'K+', icon: UsersRound, label: 'Lives Touched' },
+  { id: 'national-visions', value: 3, icon: Medal, label: 'National Visions' },
+  { id: 'transparency', value: 100, suffix: '%', icon: ShieldCheck, label: 'Transparency' },
 ];
 
 const formatNumber = (value: number) => new Intl.NumberFormat('en-IN').format(value);
 
 function CountUpValue({ value, prefix = '', suffix = '' }: Pick<FootprintStat, 'value' | 'prefix' | 'suffix'>) {
-  const valueRef = useRef<HTMLElement | null>(null);
-  const isVisible = useInView(valueRef, { once: true, amount: 0.45 });
-  const numericValue = typeof value === 'number' ? value : Number(value);
-  const isNumeric = Number.isFinite(numericValue);
-  const [displayValue, setDisplayValue] = useState(isNumeric ? '0' : String(value));
+  const target = typeof value === 'number' ? value : null;
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!isVisible || !isNumeric) return;
+    if (target === null) return;
 
-    const duration = 1400;
-    const startTime = performance.now();
+    const duration = 1200;
+    const startedAt = performance.now();
     let frame = 0;
-
-    const tick = (time: number) => {
-      const progress = Math.min((time - startTime) / duration, 1);
-      const easedProgress = 1 - Math.pow(1 - progress, 3);
-      setDisplayValue(formatNumber(Math.round(numericValue * easedProgress)));
-
-      if (progress < 1) frame = requestAnimationFrame(tick);
+    const animate = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(target * eased));
+      if (progress < 1) frame = window.requestAnimationFrame(animate);
     };
 
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [isNumeric, isVisible, numericValue]);
+    frame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frame);
+  }, [target]);
+
+  const displayValue = target === null ? String(value) : formatNumber(count);
 
   return (
     <motion.strong
-      ref={valueRef}
-      initial={{ opacity: 0, y: 8 }}
-      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-      transition={{ duration: 0.45, ease: 'easeOut' }}
       aria-label={`${prefix}${value}${suffix}`}
     >
       {prefix && <small>{prefix}</small>}
@@ -68,9 +60,9 @@ export function ImpactStats({ stats = defaultStats }: { stats?: FootprintStat[] 
   return (
     <section className="impact-stats-section" aria-labelledby="impact-stats-title">
       <div className="impact-stats-container">
-        <div className="impact-stats-heading">
-          <div className="impact-stats-title">
-            <span className="impact-stats-watermark" aria-hidden="true">Footprint</span>
+        <div className="impact-stats-mini-heading">
+          <div>
+            <span>OUR FOOTPRINT</span>
             <h2 id="impact-stats-title">Footprint</h2>
           </div>
           <p>Every programme is a step towards a healthier, educated and empowered Bharat.</p>

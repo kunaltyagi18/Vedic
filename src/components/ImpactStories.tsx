@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { stories, impactParagraph } from '@/lib/vgfc-content';
 
@@ -10,6 +13,7 @@ const storyImages: Record<string, string> = {
   'environment-and-energy': '/images/work-environment.jpg',
   nutrition: '/images/work-nutrition.jpg',
 };
+const MotionLink = motion.a;
 
 function StoryCard({
   story,
@@ -23,11 +27,17 @@ function StoryCard({
   featured?: boolean;
 }) {
   return (
-    <Link
+    <MotionLink
       href={`/${story.slug}`}
       className={`impact-story-card ${featured ? 'impact-story-card-featured' : ''}`}
+      initial={{ opacity: 0, y: 34, scale: 0.985 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.68, delay: (index - 1) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -5 }}
+      whileFocus={{ y: -5 }}
     >
-      <img src={image} alt={story.title} width={1000} height={650} loading={featured ? 'eager' : 'lazy'} />
+      <img src={image} alt={story.title} width={1000} height={650} loading={featured ? 'eager' : 'lazy'} decoding="async" />
       <span className="impact-story-category">{String(index).padStart(2, '0')} / {story.title === 'Environment & energy' ? 'ENVIRONMENT AND ENERGY' : story.title.toUpperCase()}</span>
       <div className="impact-story-overlay" />
       <div className="impact-story-content">
@@ -35,7 +45,7 @@ function StoryCard({
         <p>{story.description}</p>
         <span className="impact-story-action">Explore story <ArrowUpRight size={15} strokeWidth={1.8} /></span>
       </div>
-    </Link>
+    </MotionLink>
   );
 }
 

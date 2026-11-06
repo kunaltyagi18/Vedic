@@ -5,7 +5,6 @@ import { FamilyCardSection } from '@/components/FamilyCardSection';
 import { Announcements } from '@/components/Announcements';
 import { ImpactStories } from '@/components/ImpactStories';
 import { ImpactStats } from '@/components/ImpactStats';
-import { LegacySection } from '@/components/LegacySection';
 import { AreasOfWork } from '@/components/AreasOfWork';
 import { AboutSection } from '@/components/AboutSection';
 import { VolunteerBanner } from '@/components/VolunteerBanner';
@@ -30,13 +29,12 @@ export default function Home() {
       <Navbar />
       <main className="main-content">
         <HeroSlider />
+        <AboutSection />
+        <ImpactStats />
         <FamilyCardSection />
         <ImpactStories />
-        <Announcements />
-        <ImpactStats />
-        <LegacySection />
         <AreasOfWork />
-        <AboutSection />
+        <Announcements />
         <VolunteerBanner />
       </main>
       <Footer />

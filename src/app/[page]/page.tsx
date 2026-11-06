@@ -13,6 +13,7 @@ import { pages, officialUrl } from '@/lib/vgfc-content';
 
 interface Props {
   params: Promise<{ page: string }>;
+  searchParams: Promise<{ amount?: string | string[] }>;
 }
 
 export async function generateStaticParams() {
@@ -35,17 +36,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ContentPage({ params }: Props) {
+export default async function ContentPage({ params, searchParams }: Props) {
   const { page: slug } = await params;
+  const query = await searchParams;
   const content = pages[slug];
   if (!content) notFound();
 
   if (slug === 'register' || slug === 'donate') {
+    const amountParam = Array.isArray(query.amount) ? query.amount[0] : query.amount;
+    const parsedAmount = amountParam && /^\d+$/.test(amountParam) ? Number(amountParam) : undefined;
+
     return (
       <>
         <Navbar />
         <main className="main-content">
-          {slug === 'register' ? <RegisterPage /> : <DonatePage />}
+          {slug === 'register' ? <RegisterPage /> : <DonatePage initialAmount={parsedAmount} />}
         </main>
         <Footer />
       </>

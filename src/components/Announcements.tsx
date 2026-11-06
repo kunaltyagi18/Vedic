@@ -90,11 +90,6 @@ const updateCardMotion: Variants = {
   tap: { scale: 0.995 },
 };
 
-const updateCardVeilMotion: Variants = {
-  rest: { opacity: 0 },
-  hover: { opacity: 1, transition: { duration: 0.38, ease: 'easeOut' } },
-};
-
 const updateCardContentMotion: Variants = {
   rest: { y: 0 },
   hover: { y: -3, transition: { duration: 0.38, ease: [0.22, 0.61, 0.36, 1] } },
@@ -110,12 +105,6 @@ function UpdateCard({ update }: { update: Update }) {
       whileTap="tap"
       variants={updateCardMotion}
     >
-      <motion.div
-        className="update-card-veil pointer-events-none absolute inset-0"
-        aria-hidden="true"
-        variants={updateCardVeilMotion}
-      />
-
       <motion.div className="update-card-content" variants={updateCardContentMotion}>
         <span className="update-category">{update.category}</span>
         <h3>{update.title}</h3>
@@ -142,12 +131,16 @@ function UpdateCard({ update }: { update: Update }) {
 
 export function Announcements() {
   const [index, setIndex] = useState(0);
-  const visibleUpdates = [updates[index], updates[(index + 1) % updates.length]];
+  const visibleUpdates = [
+    updates[index],
+    updates[(index + 1) % updates.length],
+    updates[(index + 2) % updates.length],
+  ];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
       setIndex(current => (current + 1) % updates.length);
-    }, 6500);
+    }, 10000);
 
     return () => window.clearInterval(timer);
   }, []);

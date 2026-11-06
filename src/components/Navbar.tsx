@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Heart, Menu, X } from 'lucide-react';
+import { ChevronDown, Heart, Menu, X, HeartHandshake, UsersRound, ShieldCheck, PhoneCall } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Brand } from './Brand';
 
@@ -18,6 +18,14 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   return (
     <header className="site-header">
+      <div className="top-strip">
+        <div className="site-container top-strip-inner">
+          <span className="top-strip-item"><HeartHandshake size={14}/>Act Today, Change Tomorrow</span>
+          <span className="top-strip-item"><UsersRound size={14}/>25,000+ Lives Touched</span>
+          <span className="top-strip-item"><ShieldCheck size={14}/>Transparency &amp; Impact</span>
+          <a className="top-strip-help" href="tel:+919050940609"><PhoneCall size={14}/>Need Help? +91 90509 40609</a>
+        </div>
+      </div>
       <div className="site-container header-inner">
         <Brand />
         <nav className="desktop-nav" aria-label="Main navigation">

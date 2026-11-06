@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import {
   ArrowRight,
   CheckCircle2,
@@ -107,7 +110,10 @@ export function RegisterPage() {
   );
 }
 
-export function DonatePage() {
+export function DonatePage({ initialAmount }: { initialAmount?: number }) {
+  const [amount, setAmount] = useState(initialAmount ? String(initialAmount) : '');
+  const presetAmounts = [500, 1000, 2500, 5000, 10000];
+
   return (
     <section className="action-page donate-page">
       <div className="action-backdrop" style={{ backgroundImage: "url('/images/community-healthcare.jpg')" }} />
@@ -122,9 +128,9 @@ export function DonatePage() {
 
         <form className="action-form donate-form">
           <h2>Donate &amp; Make an Impact</h2>
-          <label className="action-field full-field"><span>Donation amount (₹)<b>*</b></span><div className="rupee-input"><IndianRupee size={16} /><input type="number" min="1" placeholder="Enter amount" required /></div></label>
-          <div className="amount-presets">
-            {[500, 1000, 2500, 5000, 10000].map(amount => <button type="button" key={amount}>₹{amount.toLocaleString('en-IN')}</button>)}
+          <label className="hero-donate-field"><span>Donation amount (₹)<b>*</b></span><div className="rupee-input"><IndianRupee size={16} /><input type="number" min="1" placeholder="Enter amount" value={amount} onChange={(event) => setAmount(event.target.value)} required /></div></label>
+          <div className="hero-donate-presets" aria-label="Choose donation amount">
+            {presetAmounts.map((preset) => <button className={amount === String(preset) ? 'is-selected' : ''} type="button" key={preset} onClick={() => setAmount(String(preset))}>₹{preset.toLocaleString('en-IN')}</button>)}
           </div>
           <div className="form-fields donation-fields">
             <Field label="Full name" placeholder="Your name" required />
