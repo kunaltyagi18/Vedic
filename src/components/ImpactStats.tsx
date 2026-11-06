@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Medal, ShieldCheck, Target, UsersRound, type LucideIcon } from 'lucide-react';
 
@@ -22,14 +22,14 @@ const defaultStats: FootprintStat[] = [
 
 const formatNumber = (value: number) => new Intl.NumberFormat('en-IN').format(value);
 
-function CountUpValue({ value, prefix = '', suffix = '' }: Pick<FootprintStat, 'value' | 'prefix' | 'suffix'>) {
+function CountUpValue({ value, prefix = '', suffix = '', start }: Pick<FootprintStat, 'value' | 'prefix' | 'suffix'> & { start: boolean }) {
   const target = typeof value === 'number' ? value : null;
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (target === null) return;
+    if (!start || target === null) return;
 
-    const duration = 1200;
+    const duration = 1600;
     const startedAt = performance.now();
     let frame = 0;
     const animate = (now: number) => {
@@ -41,7 +41,7 @@ function CountUpValue({ value, prefix = '', suffix = '' }: Pick<FootprintStat, '
 
     frame = window.requestAnimationFrame(animate);
     return () => window.cancelAnimationFrame(frame);
-  }, [target]);
+  }, [start, target]);
 
   const displayValue = target === null ? String(value) : formatNumber(count);
 
@@ -57,8 +57,33 @@ function CountUpValue({ value, prefix = '', suffix = '' }: Pick<FootprintStat, '
 }
 
 export function ImpactStats({ stats = defaultStats }: { stats?: FootprintStat[] }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [hasEntered, setHasEntered] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setHasEntered(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasEntered(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="impact-stats-section" aria-labelledby="impact-stats-title">
+    <section ref={sectionRef} className="impact-stats-section" aria-labelledby="impact-stats-title">
       <div className="impact-stats-container">
         <div className="impact-stats-mini-heading">
           <div>
@@ -78,7 +103,7 @@ export function ImpactStats({ stats = defaultStats }: { stats?: FootprintStat[] 
               <span className="impact-stat-icon group-hover:scale-110 transition-transform duration-300">
                 <Icon size={22} strokeWidth={1.5} />
               </span>
-              <CountUpValue value={value} prefix={prefix} suffix={suffix} />
+              <CountUpValue value={value} prefix={prefix} suffix={suffix} start={hasEntered} />
               <span>{label}</span>
             </motion.div>
           ))}
