@@ -1329,3 +1329,218 @@ img, svg, video, canvas { max-width: 100%; }
 .hero-donation-submit { background: #d7192a; color: #fff; font-weight: 500; box-shadow: 0 10px 20px rgb(215 25 42 / 22%); }
 .hero-donation-submit { min-height: 48px; border-radius: 11px; font-size: 14px; }
 .hero-donation-submit:hover { background: #b51220; filter: none; box-shadow: 0 12px 22px rgb(181 18 32 / 28%); }
+
+/* Final responsive foundation.
+   Keep these rules together so every page shares the same safe sizing rules. */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: hidden; }
+img, video { display: block; max-width: 100%; }
+button, input, select, textarea { max-width: 100%; }
+
+.site-container,
+.latest-updates .site-container,
+.impact-stories-container,
+.impact-stats-container { min-width: 0; }
+
+h1, h2, h3, h4, p, a, span, button, label { overflow-wrap: anywhere; }
+.hero h1, .section-title, .action-heading h1, .donate-copy h1 { text-wrap: balance; }
+.hero-actions a, .about-cta, .update-more, .donate-submit, .form-submit-row button { white-space: normal; }
+
+@media (max-width: 1040px) {
+  .hero {
+    height: auto;
+    min-height: 860px;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    align-items: start;
+    gap: 0;
+  }
+
+  .hero-copy {
+    max-width: 680px;
+    padding-block: 48px 34px;
+  }
+
+  .hero-donation-card {
+    width: min(100%, 480px);
+    margin: 0 auto 122px;
+  }
+
+  .about-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+  }
+
+  .about-collage {
+    width: min(100%, 620px);
+    min-height: 430px;
+    margin-inline: auto;
+  }
+
+  .about-content { max-width: 760px; margin-inline: auto; }
+  .donate-layout { grid-template-columns: minmax(0, 1fr) minmax(360px, 430px); gap: 32px; }
+}
+
+@media (max-width: 920px) {
+  .site-container { width: calc(100% - 40px); }
+  .latest-updates .site-container,
+  .impact-stories-container,
+  .impact-stats-container { width: calc(100% - 40px); }
+
+  .hero { min-height: 840px; }
+  .hero-copy { padding-top: 42px; }
+  .hero h1 { max-width: 680px; }
+
+  .donate-page { display: block; }
+  .donate-layout {
+    display: block;
+    min-height: auto;
+    padding-block: 54px 62px;
+  }
+
+  .donate-copy { max-width: 650px; margin-bottom: 36px; }
+  .donate-form { width: min(100%, 620px); margin-inline: auto; }
+
+  .register-layout {
+    grid-template-columns: minmax(0, 700px);
+    max-width: 700px;
+    margin-inline: auto;
+  }
+
+  .registration-checklist { order: 2; }
+  .footer-grid { gap: 34px 28px; }
+}
+
+@media (max-width: 720px) {
+  .site-container { width: calc(100% - 32px); }
+  .latest-updates .site-container,
+  .impact-stories-container,
+  .impact-stats-container { width: calc(100% - 32px); }
+
+  .top-strip-item:nth-child(3) { display: none; }
+  .top-strip-inner { justify-content: space-between; gap: 10px; }
+  .top-strip-item, .top-strip-help { font-size: 9px; }
+
+  .hero { min-height: 800px; }
+  .hero-copy { padding-block: 34px 28px; }
+  .hero h1 { font-size: clamp(32px, 8vw, 46px); }
+  .hero-description { max-width: 560px; }
+  .hero-donation-card { width: min(100%, 500px); margin-bottom: 108px; }
+
+  .about-section { padding-block: 58px 52px; }
+  .about-collage { min-height: 390px; }
+  .about-photo-primary { height: 300px; }
+  .about-photo-secondary { height: 200px; }
+
+  .impact-stats-mini-heading { display: block; }
+  .impact-stats-mini-heading p { margin-top: 10px; }
+
+  .volunteer-inner { align-items: flex-start; }
+  .volunteer-copy { min-width: 0; }
+  .footer-bottom { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .site-container { width: calc(100% - 24px); }
+  .latest-updates .site-container,
+  .impact-stories-container,
+  .impact-stats-container { width: calc(100% - 24px); }
+
+  /* The logo is intentionally oversized on desktop, but must not push the
+     actions off-screen on a phone. */
+  .brand { gap: 5px; min-width: 0; }
+  .brand > div > span { width: 44px; height: 44px; }
+  .brand > div > span svg { width: 32px; height: 32px; }
+  .brand-name { min-width: 0; font-size: 7px; }
+  .brand-name > span { letter-spacing: .04em; }
+  .brand-caption { font-size: 5.5px; letter-spacing: .08em; }
+  .header-inner { gap: 5px; }
+  .header-actions { gap: 4px; min-width: 0; }
+  .header-actions .header-donate { padding-inline: 8px; font-size: 9px; }
+  .header-actions .header-donate svg { width: 12px; height: 12px; }
+
+  .hero { min-height: 760px; }
+  .hero-copy { padding-block: 28px 22px; }
+  .hero h1 { margin-block: 17px; font-size: clamp(28px, 9vw, 38px); }
+  .hero h1.compact-title { font-size: clamp(25px, 7.5vw, 31px); }
+  .hero-description { font-size: 11px; line-height: 1.7; }
+  .hero-badges { gap: 7px; margin-block: 17px; }
+  .hero-badges span { padding: 6px 8px; font-size: 9px; }
+  .hero-actions { gap: 7px; }
+  .hero-actions a { min-height: 40px; padding-inline: 8px; font-size: 10px; }
+  .hero-support { margin-top: 20px; }
+  .hero-support-avatar { width: 32px; height: 32px; flex-basis: 32px; }
+  .hero-support p { font-size: 9px; }
+  .hero-support p strong { font-size: 11px; }
+  .hero-donation-card { margin-bottom: 100px; padding: 16px; }
+  .hero-donation-heading h2 { font-size: 16px; }
+  .hero-donation-heading p { font-size: 9px; }
+  .hero-donation-prompt { font-size: 10px; }
+
+  .about-collage { min-height: 350px; margin-inline: 0; }
+  .about-photo-primary { top: 30px; height: 260px; }
+  .about-photo-secondary { bottom: 22px; height: 175px; }
+  .about-years { top: 58px; min-width: 88px; padding: 10px 11px; }
+  .about-years strong { font-size: 21px; }
+  .about-years span { font-size: 9px; }
+  .about-content h2 { font-size: clamp(31px, 9.5vw, 43px); }
+  .about-tab-panel { min-height: 0; }
+  .about-values span { max-width: 100%; }
+
+  .work-filter { margin-block: 22px 18px; }
+  .work-grid { grid-template-columns: 1fr; gap: 12px; }
+  .work-grid .work-card { min-height: 220px; aspect-ratio: auto; }
+  .work-grid .work-card-title { font-size: 18px; }
+  .work-card-description { font-size: 11px; }
+
+  .impact-stories-section { padding-block: 56px 64px; }
+  .impact-stories-heading-copy h2 { font-size: clamp(34px, 10vw, 42px); }
+  .impact-stories-grid { grid-template-columns: 1fr; grid-template-rows: none; }
+  .impact-story-card, .impact-story-card:first-child { min-height: 280px; grid-column: auto; grid-row: auto; }
+
+  .latest-updates { padding-block: 38px 42px; }
+  .latest-updates-header h2 { font-size: clamp(32px, 10vw, 38px); }
+  .latest-updates .updates-grid { width: calc(100% - 8px); }
+  .latest-updates .update-card,
+  .latest-updates .update-card-content { min-height: 330px; }
+  .update-card-content { padding: 24px 18px 18px; }
+  .update-card h3 { font-size: 25px; }
+  .update-card-footer { align-items: flex-start; }
+  .update-more { min-width: 0; padding-inline: 12px; }
+
+  .impact-stats-container { padding-inline: 0; }
+  .impact-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .impact-stat { min-width: 0; padding-inline: 5px; }
+  .impact-stat > span:last-child { overflow-wrap: anywhere; }
+
+  .action-heading h1, .donate-copy h1 { font-size: clamp(29px, 9vw, 43px); }
+  .action-heading > p:last-child { font-size: 11px; }
+  .register-form, .donate-form { padding-inline: 14px; }
+  .form-fields, .donation-fields { grid-template-columns: 1fr; }
+  .form-fields .action-field, .donation-fields .action-field { grid-column: auto; }
+  .amount-presets, .hero-donate-presets { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .form-submit-row button { width: 100%; }
+
+  .volunteer-inner { gap: 22px; }
+  .volunteer-copy { align-items: flex-start; }
+  .volunteer-title { font-size: 21px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+  .footer-grid > :first-child, .footer-grid > :last-child { grid-column: auto; }
+  .detail-main { padding-block: 42px; }
+  .detail-image { max-height: 300px; margin-top: 22px; }
+  .detail-copy { font-size: 13px; line-height: 1.8; }
+}
+
+@media (max-width: 380px) {
+  .brand > div > span { width: 40px; height: 40px; }
+  .brand > div > span svg { width: 29px; height: 29px; }
+  .brand-name { font-size: 6.5px; }
+  .header-actions .header-donate { padding-inline: 6px; }
+  .hero { min-height: 730px; }
+  .hero-donation-card { padding: 14px; }
+  .hero-donation-amounts button { min-height: 40px; font-size: 10px; }
+}
